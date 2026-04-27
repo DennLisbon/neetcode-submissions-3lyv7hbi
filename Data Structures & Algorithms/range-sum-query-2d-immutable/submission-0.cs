@@ -1,0 +1,31 @@
+public class NumMatrix {
+    private int[,] prefixSum;
+
+    public NumMatrix(int[][] matrix) {
+        int rows = matrix.Length;
+        int cols = matrix[0].Length;
+        
+        prefixSum = new int[rows + 1, cols + 1];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                prefixSum[i + 1, j + 1] = matrix[i][j] 
+                                        + prefixSum[i, j + 1] 
+                                        + prefixSum[i + 1, j] 
+                                        - prefixSum[i, j];
+            }
+        }
+    }
+    
+    public int SumRegion(int row1, int col1, int row2, int col2) {
+        return prefixSum[row2 + 1, col2 + 1] 
+             - prefixSum[row1, col2 + 1] 
+             - prefixSum[row2 + 1, col1] 
+             + prefixSum[row1, col1];
+    }
+}
+/**
+ * Your NumMatrix object will be instantiated and called as such:
+ * NumMatrix obj = new NumMatrix(matrix);
+ * int param_1 = obj.SumRegion(row1,col1,row2,col2);
+ */
